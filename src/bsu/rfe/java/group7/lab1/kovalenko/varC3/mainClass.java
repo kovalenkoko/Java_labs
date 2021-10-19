@@ -1,23 +1,23 @@
 package bsu.rfe.java.group7.lab1.kovalenko.varC3;
 
 import java.lang.reflect.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-
 
 public class mainClass {
     public static void main(String[] args) throws  IllegalAccessException, InvocationTargetException{
 
         Food[] breakfast = new Food[20];
-        breakfast[0] = new Apple("big");
-        breakfast[1] = new Dessert("bagel","donut");
-        breakfast[2] = new Cheese();
-        breakfast[3] = new Dessert("cake");
-
 
         boolean logicSort = false;
         boolean logicCalories = false;
+        ArrayList<Integer> cheeseArray = new ArrayList<>();
+        ArrayList<Integer> appleArray = new ArrayList<>();
+        ArrayList<Integer> dessertArray = new ArrayList<>();
+
         int iter = 0;
+        int itemsSoFar = 0;
         for (String arg: args) {
             String[] partsOfArguments = arg.split("/");
             if(partsOfArguments[0].equals("-sort"))
@@ -30,6 +30,21 @@ public class mainClass {
                 logicCalories = true;
                 continue;
             }
+
+            String[] parts = arg.split("/");
+            if (parts[0].equals("Cheese")) {
+                breakfast[itemsSoFar] = new Cheese();
+                cheeseArray.add(itemsSoFar);
+            }
+            if (parts[0].equals("Apple")) {
+                breakfast[itemsSoFar] = new Apple(parts[1]);
+                appleArray.add(itemsSoFar);
+            }
+            if (parts[0].equals("Dessert")) {
+                breakfast[itemsSoFar] = new Dessert(parts[1],parts[2]);
+                dessertArray.add(itemsSoFar);
+            }
+            itemsSoFar++;
             try {
                 Class myClass = Class.forName("bsu.rfe.java.group7.lab1." + partsOfArguments[0]);
 
@@ -82,11 +97,11 @@ public class mainClass {
                 }
             });
             printMyBreakfast(breakfast);
+
         }
-
-
-
-
+        System.out.println("Cheeses:" + " " + cheeseArray.size());
+        System.out.println("Apples:" + " " + appleArray.size());
+        System.out.println("Desserts:" + " " + dessertArray.size());
 
     }
 
@@ -116,4 +131,9 @@ public class mainClass {
         }
         return totalCalories;
     }
+
 }
+
+
+
+
