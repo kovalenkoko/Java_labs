@@ -223,6 +223,8 @@ public class GraphicsDisplay extends JPanel {
     }
     // Отображение маркеров точек, по которым рисовался график
     protected void paintMarkers(Graphics2D canvas) {
+
+        
         // Шаг 1 - Установить специальное перо для черчения контуров маркеров
         canvas.setStroke(markerStroke);
         // Выбрать красный цвета для контуров маркеров
@@ -230,9 +232,41 @@ public class GraphicsDisplay extends JPanel {
         // Выбрать красный цвет для закрашивания маркеров внутри
         canvas.setPaint(Color.RED);
 
+        for (Double[] point : graphicsData) {
+            Point2D.Double center = xyToPoint(point[0], point[1]);
+            GeneralPath path = new GeneralPath();
+            path.moveTo(center.x + 0, center.y + 5);
+            path.lineTo(center.x - 1, center.y + 4);
+            path.lineTo(center.x - 1, center.y + 2);
+            path.lineTo(center.x - 2, center.y + 2);
+            path.lineTo(center.x - 3, center.y + 1);
+            path.lineTo(center.x - 4, center.y + 1);
+            path.lineTo(center.x - 5, center.y + 0);
+            path.lineTo(center.x - 4, center.y - 1);
+            path.lineTo(center.x - 3, center.y - 1);
+            path.lineTo(center.x - 2, center.y - 2);
+            path.lineTo(center.x - 1, center.y - 2);
+            path.lineTo(center.x - 1, center.y - 4);
+            path.lineTo(center.x + 0, center.y - 5);
+            path.lineTo(center.x + 1, center.y - 4);
+            path.lineTo(center.x + 1, center.y - 2);
+            path.lineTo(center.x + 2, center.y - 2);
+            path.lineTo(center.x + 3, center.y - 1);
+            path.lineTo(center.x + 4, center.y - 1);
+            path.lineTo(center.x + 5, center.y + 0);
+            path.lineTo(center.x + 4, center.y + 1);
+            path.lineTo(center.x + 3, center.y + 1);
+            path.lineTo(center.x + 2, center.y + 2);
+            path.lineTo(center.x + 1, center.y + 2);
+            path.lineTo(center.x + 1, center.y + 4);
+            path.lineTo(center.x + 0, center.y + 5);
+            canvas.draw(path);
+        }
         // Шаг 2 - Организовать цикл по всем точкам графика
         for (Double[] point : graphicsData) {
-        if(isSumLessThanTen(point)) {
+            canvas.setPaint(Color.BLUE);
+
+            if(isSumLessThanTen(point)) {
             Point2D.Double center = xyToPoint(point[0], point[1]);
             GeneralPath path = new GeneralPath();
             path.moveTo(center.x + 0, center.y + 5);
