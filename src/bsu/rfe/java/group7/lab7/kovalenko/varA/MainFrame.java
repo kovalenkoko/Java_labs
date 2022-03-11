@@ -24,7 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-
+import org.apache.commons.validator.routines.InetAddressValidator;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
@@ -172,6 +172,7 @@ public class MainFrame extends JFrame {
             final String senderName = textFieldFrom.getText();
             final String destinationAddress = textFieldTo.getText();
             final String message = textAreaOutgoing.getText();
+            InetAddressValidator inetValidator = InetAddressValidator.getInstance();
             // Убеждаемся, что поля не пустые
             if (senderName.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
@@ -179,7 +180,12 @@ public class MainFrame extends JFrame {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
+            if(!inetValidator.isValidInet4Address(destinationAddress)) {
+                JOptionPane.showMessageDialog(this, "Некоректно введен IP" , "Ошибка",
+                        JOptionPane.ERROR_MESSAGE);
+                textFieldTo.requestFocusInWindow();
+                return;
+            }
             if (destinationAddress.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
                         "Введите адрес узла-получателя", "Ошибка",
